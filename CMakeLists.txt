@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
-project(Matrix CXX)
+project(VECTOR CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -14,5 +14,6 @@ if(MSVC)
     endif()
 endif()
 
+add_library(vector SHARED "include/vector.h" "src/vector.cc" "src/main.cc")
 
-add_executable(main "src/main.cc")
+add_executable(main "src/vector.cc")
