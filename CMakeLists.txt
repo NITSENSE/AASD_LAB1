@@ -16,4 +16,4 @@ endif()
 
 add_library(vector SHARED "include/vector.h" "src/vector.cc" "src/main.cc")
 
-add_executable(main "src/vector.cc")
+add_executable(mainnn "src/vector.cc")

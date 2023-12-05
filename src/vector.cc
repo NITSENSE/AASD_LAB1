@@ -56,6 +56,41 @@ Vector<std::complex<float>>::Vector(int size, std::complex<float> bottom, std::c
 }
 
 template<typename T>
+const T& Vector<T>::operator[](int index) const {
+    if (index >= 0 || _dimension > index) {
+        return *_coordinates[index];
+    }
+}
+
+template<typename T>
+T& Vector<T>::operator[](int index) {
+    if (index >= 0 || _dimension > index)
+        return *_coordinates[index];
+}
+
+template<typename T>
+Vector<T>::Vector(const Vector<T>& copy) :
+    _coordinates(new T* [copy._dimension]),
+    _dimension(copy._dimension)
+{
+    for (int i = 0; i < _dimension; ++i)
+        _coordinates[i] = new T(*copy._coordinates[i]);
+}
+
+template<typename T>
+void Vector<T>::Swap(Vector<T>& other) noexcept
+{
+    std::swap(_dimension, other._dimension);
+    std::swap(_coordinates, other._coordinates);
+}
+
+template<typename T>
+Vector<T>& Vector<T>::operator=(Vector<T> other) {
+    Swap(other);
+    return *this;
+}
+
+template<typename T>
 void Vector<T>::print() {
     for (int i = 0; i < _dimension; i++) {
         std::cout << *_coordinates[i] << std::endl;
@@ -66,8 +101,11 @@ void Vector<T>::print() {
 int main() {
     std::complex<float> a(3.3, 3.3);
     std::complex<float> b(20.9, 20.9);
+    std::complex<float> c(10, 10);
     Vector<std::complex<float>> test(3, a, b);
+    test[0] = c;
     test.print();
     std::cout << 55;
+    test.print();
     return 0;
 }
