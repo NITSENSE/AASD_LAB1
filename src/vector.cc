@@ -90,6 +90,98 @@ Vector<T>& Vector<T>::operator=(Vector<T> other) {
     return *this;
 }
 
+
+template<typename T>
+Vector<T>& Vector<T>::operator+=(const Vector<T> &other) {
+    if (_dimension != other._dimension) {
+        throw std::invalid_argument("Vectors dimensions do not match");
+    }
+    for (int i = 0; i < _dimension; i++) {
+        *_coordinates[i] += *other._coordinates[i];
+    }
+    return *this;
+}
+
+
+template<typename T>
+Vector<T>& Vector<T>::operator-=(const Vector<T>& other) {
+    if (_dimension != other._dimension) {
+        throw std::invalid_argument("Vectors dimensions do not match");
+    }
+    for (int i = 0; i < _dimension; i++) {
+        *_coordinates[i] -= *other._coordinates[i];
+    }
+    return *this;
+}
+    
+
+template<typename T>
+Vector<T>& Vector<T>::operator+(const Vector<T>& other) const {
+    if (_dimension != other._dimension) {
+        throw std::invalid_argument("Vectors dimensions do not match");
+    }
+    Vector<T> temp = *this;
+    return temp += other;
+}
+
+
+template<typename T>
+Vector<T>& Vector<T>::operator-(const Vector<T>& other) const {
+    if (_dimension != other._dimension) {
+        throw std::invalid_argument("Vectors dimensions do not match");
+    }
+    Vector<T> temp = *this;
+    return temp -= other;
+}
+
+
+template<typename T>
+T& Vector<T>::operator*(const Vector<T>& other) const {
+    if (_dimension != other._dimension) {
+        throw std::invalid_argument("Vectors dimensions do not match");
+    }
+    T result = 0;
+    for (int i = 0; i < _dimension; i++) {
+        result += *_coordinates[i] * *other._coordinates[i];
+    }
+    return result;
+}
+
+template<typename T>
+Vector<T>& Vector<T>::operator*=(const T& scalar) {
+    for (int i = 0; i < _dimension; i++) {
+        *_coordinates[i] *= scalar;
+    }
+    return *this;
+}
+
+template<typename T>
+Vector<T>& Vector<T>::operator*(const T& scalar) const {
+    Vector<T> temp = *this;
+    return temp *= scalar;
+}
+
+template<typename T>
+Vector<T>& Vector<T>::operator/=(const T& scalar) {
+    if (!_dimension) {
+        throw std::invalid_argument("divide by zero");
+    }
+    for (int i = 0; i < _dimension; i++) {
+        *_coordinates[i] /= scalar;
+    }
+    return *this;
+}
+
+template<typename T>
+Vector<T>& Vector<T>::operator/(const T& scalar) const {
+    if (!_dimension) {
+        throw std::invalid_argument("divide by zero");
+    }
+    Vector<T> temp = *this;
+    return temp /= scalar;
+}
+
+
 template<typename T>
 void Vector<T>::print() {
     for (int i = 0; i < _dimension; i++) {
@@ -97,15 +189,3 @@ void Vector<T>::print() {
     }
 }
 
-
-int main() {
-    std::complex<float> a(3.3, 3.3);
-    std::complex<float> b(20.9, 20.9);
-    std::complex<float> c(10, 10);
-    Vector<std::complex<float>> test(3, a, b);
-    test[0] = c;
-    test.print();
-    std::cout << 55;
-    test.print();
-    return 0;
-}
